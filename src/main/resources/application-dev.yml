@@ -13,6 +13,16 @@ elasticjob:
     namespace: myTask
     #  digest: "lixt90:password"
   jobs:
+    singleShardJob:
+      elasticJobClass: com.lxt.elastic.job.simplejob.SingleShardJob
+      cron: 0/10 * * * * ?
+      shardingTotalCount: 1
+
+    multiShardJob:
+      elasticJobClass: com.lxt.elastic.job.simplejob.MultiShardJob
+      cron: 0/20 * * * * ?
+      shardingTotalCount: 2
+
     # 钉钉告警
     occurErrorNoticeDingtalkJob:
       elasticJobClass: com.lxt.elastic.job.simplejob.DingtalkAlarmingJob
