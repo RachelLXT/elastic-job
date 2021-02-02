@@ -1,0 +1,20 @@
+server:
+  port: ${SERVER_PORT:9996}
+
+#reg-center:
+#  namespace: myTask
+#  server-lists: 127.0.0.1:2181
+##  digest: "lixt90:lxtykx"
+#job:
+#  multi-shard-job:
+#    shards: 3
+#    cron: 0 0/1 * * * ?
+#  single-shard-job:
+#    shards: 1
+#    cron: 0/30 1 * * * ?
+
+spring:
+  application:
+    name: ${APP_NAME}
+  profiles:
+    active: dev

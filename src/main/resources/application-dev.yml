@@ -1,0 +1,52 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:job_event_storage
+    driver-class-name: org.h2.Driver
+    username: root
+    password: 123456
+
+
+
+elasticjob:
+  reg-center:
+    serverLists: 127.0.0.1:2181
+    namespace: myTask
+    #  digest: "lixt90:password"
+  jobs:
+    # 钉钉告警
+    occurErrorNoticeDingtalkJob:
+      elasticJobClass: com.lxt.elastic.job.simplejob.DingtalkAlarmingJob
+      overwrite: true
+      # cron: 0 5 * * * ?
+      shardingTotalCount: 1
+      shardingItemParameters: 0=Beijing,1=Shanghai,2=Guangzhou
+      jobErrorHandlerType: DINGTALK
+      jobBootstrapBeanName: occurErrorNoticeDingtalkBean
+      props:
+        dingtalk:
+          webhook: ${DINGTALK_WEBHOOK}
+          keyword: ${DINGTALK_KEYWORD}
+          secret:
+          connectTimeout: 3000
+          readTimeout: 5000
+    # 邮件告警
+    occurErrorNoticeEmailJob:
+      elasticJobClass: com.lxt.elastic.job.simplejob.EmailAlarmingJob
+      overwrite: true
+      # cron: 0/30 * * * * ?
+      shardingTotalCount: 1
+      shardingItemParameters: 0=Beijing,1=Shanghai,2=Guangzhou
+      jobErrorHandlerType: EMAIL
+      jobBootstrapBeanName: occurErrorNoticeEmailBean
+      props:
+        email:
+          host: smtp.qq.com
+          port: 587
+          username: ${EMAIL_USERNAME}
+          password: ${EMAIL_PASSWORD}
+          useSsl: false
+          subject: ElasticJob error message
+          from: ${EMAIL_USERNAME}
+          to: ${EMAIL_TO}
+          debug: false
+
